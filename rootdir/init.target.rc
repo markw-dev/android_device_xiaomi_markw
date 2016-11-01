@@ -36,8 +36,6 @@ on early-init
 on post-fs
     export LD_PRELOAD libNimsWrap.so
 
-on init
-    mkdir /cust 0771 system system
 on fs
     wait /dev/block/bootdevice
 
@@ -65,15 +63,6 @@ on fs
     #write /sys/kernel/boot_adsp/boot 1
 
 on post-fs
-    # We chown/chmod /cust again so because mount is run as root + defaults
-    chown system system /cust
-    chmod 0771 /cust
-    # We restorecon /cust in case the cust partition has been reset.
-    restorecon_recursive /cust
-
-    # Create the lost+found directories, so as to enforce our permissions
-    mkdir /cust/lost+found 0770 root root
-
     wait /dev/block/bootdevice/by-name/oem
     mount ext4 /dev/block/bootdevice/by-name/oem /oem ro nosuid nodev barrier=1
 
