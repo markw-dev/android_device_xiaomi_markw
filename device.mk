@@ -120,6 +120,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     gps.msm8953
 
+# IPC Router
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
+
 # Lights
 PRODUCT_PACKAGES += \
     lights.msm8953
