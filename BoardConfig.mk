@@ -142,6 +142,9 @@ TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/fstab.qcom
 # Sensor
 USE_SENSOR_MULTI_HAL := true
 
+# Tap2Wake
+TARGET_TAP_TO_WAKE_NODE := "/proc/gesture/onoff"
+
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += $(LOCAL_PATH)/sepolicy
