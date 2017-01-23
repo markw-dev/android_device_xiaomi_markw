@@ -134,7 +134,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/lowi.conf:system/etc/lowi.conf \
     $(LOCAL_PATH)/gps/sap.conf:system/etc/sap.conf
 
-
 # IPA Manager
 PRODUCT_PACKAGES += \
     ipacm \
@@ -200,6 +199,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fstab.qcom \
     init.qcom.rc \
+    init.qcom.power.rc \
     init.qcom.bt.sh \
     init.qcom.sh \
     init.qcom.usb.rc \

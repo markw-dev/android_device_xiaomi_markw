@@ -1,0 +1,98 @@
+on boot
+    # Update foreground cpuset now that processors are up
+    write /dev/cpuset/foreground/cpus 0-7
+    write /dev/cpuset/foreground/boost/cpus 4-7
+    write /dev/cpuset/background/cpus 0-1
+    write /dev/cpuset/system-background/cpus 0-3
+
+on enable-low-power
+    # Scheduler settings
+    write /proc/sys/kernel/sched_window_stats_policy 3
+    write /proc/sys/kernel/sched_ravg_hist_size 3
+
+    # Task packing settings
+    write /sys/devices/system/cpu/cpu0/sched_static_cpu_pwr_cost 0
+    write /sys/devices/system/cpu/cpu1/sched_static_cpu_pwr_cost 0
+    write /sys/devices/system/cpu/cpu2/sched_static_cpu_pwr_cost 0
+    write /sys/devices/system/cpu/cpu3/sched_static_cpu_pwr_cost 0
+    write /sys/devices/system/cpu/cpu4/sched_static_cpu_pwr_cost 0
+    write /sys/devices/system/cpu/cpu5/sched_static_cpu_pwr_cost 0
+    write /sys/devices/system/cpu/cpu6/sched_static_cpu_pwr_cost 0
+    write /sys/devices/system/cpu/cpu7/sched_static_cpu_pwr_cost 0
+
+    # Init task load, restrict wakeups to preferred cluster
+    write /proc/sys/kernel/sched_init_task_load 15
+
+    # Spill load is set to 100% by default in the kernel
+    write /proc/sys/kernel/sched_spill_nr_run 3
+
+    # Apply inter-cluster load balancer restrictions
+    write /proc/sys/kernel/sched_restrict_cluster_spill 1
+
+    # Input boost configuration
+    write /sys/module/cpu_boost/parameters/input_boost_freq "1401600"
+    write /sys/module/cpu_boost/parameters/input_boost_ms 40
+
+    write /sys/class/devfreq/qcom,mincpubw/governor "cpufreq"
+
+    # Disable thermal & BCL core_control to update interactive gov settings
+    write /sys/module/msm_thermal/core_control/enabled 0
+
+    # Governor settings
+    write /sys/devices/system/cpu/cpu0/online 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "19000 1401600:39000"
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 85
+    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
+    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1401600
+    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1401600:80"
+    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 39000
+    write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 40000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 652800
+
+    # Re-enable thermal & BCL core_control now
+    write /sys/module/msm_thermal/core_control/enabled 1
+
+    # Bring up all cores online
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/devices/system/cpu/cpu4/online 1
+    write /sys/devices/system/cpu/cpu5/online 1
+    write /sys/devices/system/cpu/cpu6/online 1
+    write /sys/devices/system/cpu/cpu7/online 1
+
+    # Enable low power modes
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+
+    # SMP scheduler
+    write /proc/sys/kernel/sched_upmigrate 100
+    write /proc/sys/kernel/sched_downmigrate 100
+
+    # Enable sched guided freq control
+    write /sys/devices/system/cpu/cpufreq/interactive/use_sched_load 1
+    write /sys/devices/system/cpu/cpufreq/interactive/use_migration_notif 1
+    write /proc/sys/kernel/sched_freq_inc_notify 200000
+    write /proc/sys/kernel/sched_freq_dec_notify 200000
+
+    write /sys/block/mmcblk0/bdi/read_ahead_kb 128
+    write /sys/block/mmcblk0/queue/read_ahead_kb 128
+    write /sys/block/dm-0/queue/read_ahead_kb 128
+    write /sys/block/dm-1/queue/read_ahead_kb 128
+
+    rm /data/system/perfd/default_values
+    start perfd
+
+on class_start:late_start
+    trigger enable-low-power
+
+on charger
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor powersave
+
+on property:init.svc.recovery=running
+    trigger enable-low-power
+
+on property:dev.bootcomplete=1
+    setprop sys.io.scheduler bfq
