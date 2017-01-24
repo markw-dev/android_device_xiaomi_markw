@@ -127,6 +127,9 @@ TARGET_PROVIDES_KEYMASTER := true
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
+# Peripheral manager
+TARGET_PER_MGR_ENABLED := true
+
 # Power
 TARGET_POWERHAL_VARIANT := qcom
 
