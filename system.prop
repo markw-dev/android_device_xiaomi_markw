@@ -48,6 +48,9 @@ vidc.dec.downscalar_width=1920
 vidc.dec.downscalar_height=1088
 vidc.enc.dcvs.extra-buff-count=2
 
+# CNE
+persist.cne.feature=1
+
 # Display
 debug.sf.hw=0
 debug.egl.hw=0
