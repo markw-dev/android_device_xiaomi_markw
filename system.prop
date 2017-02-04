@@ -43,6 +43,7 @@ bluetooth.hfp.client=1
 
 # Camera
 camera.hal1.packagelist=com.skype.raider,com.google.android.talk
+media.camera.ts.monotonic=1
 vidc.enc.disable_bframes=1
 vidc.dec.downscalar_width=1920
 vidc.dec.downscalar_height=1088
