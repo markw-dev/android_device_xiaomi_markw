@@ -211,9 +211,6 @@ PRODUCT_PACKAGES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
-    init.class_main.sh \
-    init.msm.usb.configfs.rc \
-    init.qcom.early_boot.sh \
     init.qcom.power.rc \
     init.qcom.rc \
     init.qcom.sh \
