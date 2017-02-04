@@ -135,7 +135,7 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
-    gps.default
+    gps.msm8953
 
 PRODUCT_BOOT_JARS += \
     com.qti.location.sdk
