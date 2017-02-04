@@ -33,6 +33,20 @@ else
     platformid=`cat /sys/devices/system/soc/soc0/id`
 fi
 
+start_sensors()
+{
+    if [ -c /dev/msm_dsps -o -c /dev/sensors ]; then
+        chmod -h 775 /persist/sensors
+        chmod -h 664 /persist/sensors/sensors_settings
+        chown -h system.root /persist/sensors/sensors_settings
+
+        mkdir -p /data/misc/sensors
+        chmod -h 775 /data/misc/sensors
+
+        start sensors
+    fi
+}
+
 start_battery_monitor()
 {
 	if ls /sys/bus/spmi/devices/qpnp-bms-*/fcc_data ; then
@@ -65,20 +79,6 @@ start_charger_monitor()
 		chmod 0664 /sys/module/qpnp_charger/parameters/charger_monitor
 		start charger_monitor
 	fi
-}
-
-start_sensors()
-{
-    if [ -c /dev/msm_dsps -o -c /dev/sensors ]; then
-        chmod -h 775 /persist/sensors
-        chmod -h 664 /persist/sensors/sensors_settings
-        chown -h system.root /persist/sensors/sensors_settings
-
-        mkdir -p /data/misc/sensors
-        chmod -h 775 /data/misc/sensors
-
-        start sensors
-    fi
 }
 
 start_vm_bms()
@@ -120,7 +120,175 @@ start_copying_prebuilt_qcril_db()
 baseband=`getprop ro.baseband`
 echo 1 > /proc/sys/net/ipv6/conf/default/accept_ra_defrtr
 
+case "$baseband" in
+        "svlte2a")
+        start bridgemgrd
+        ;;
+esac
+
 case "$target" in
+    "msm7630_surf" | "msm7630_1x" | "msm7630_fusion")
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+            value=`cat /sys/devices/soc0/hw_platform`
+        else
+            value=`cat /sys/devices/system/soc/soc0/hw_platform`
+        fi
+        case "$value" in
+            "Fluid")
+             start profiler_daemon;;
+        esac
+        ;;
+    "msm8660" )
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+            platformvalue=`cat /sys/devices/soc0/hw_platform`
+        else
+            platformvalue=`cat /sys/devices/system/soc/soc0/hw_platform`
+        fi
+        case "$platformvalue" in
+            "Fluid")
+                start profiler_daemon;;
+        esac
+        ;;
+    "msm8960")
+        case "$baseband" in
+            "msm")
+                start_battery_monitor;;
+        esac
+
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+            platformvalue=`cat /sys/devices/soc0/hw_platform`
+        else
+            platformvalue=`cat /sys/devices/system/soc/soc0/hw_platform`
+        fi
+        case "$platformvalue" in
+             "Fluid")
+                 start profiler_daemon;;
+             "Liquid")
+                 start profiler_daemon;;
+        esac
+        ;;
+    "msm8974")
+        platformvalue=`cat /sys/devices/soc0/hw_platform`
+        case "$platformvalue" in
+             "Fluid")
+                 start profiler_daemon;;
+             "Liquid")
+                 start profiler_daemon;;
+        esac
+        case "$baseband" in
+            "msm")
+                start_battery_monitor
+                ;;
+        esac
+        start_charger_monitor
+        ;;
+    "apq8084")
+        platformvalue=`cat /sys/devices/soc0/hw_platform`
+        case "$platformvalue" in
+             "Fluid")
+                 start profiler_daemon;;
+             "Liquid")
+                 start profiler_daemon;;
+        esac
+        ;;
+    "msm8226")
+        start_charger_monitor
+        ;;
+    "msm8610")
+        start_charger_monitor
+        ;;
+    "msm8916")
+        start_vm_bms
+        start_msm_irqbalance_8939
+        if [ -f /sys/devices/soc0/soc_id ]; then
+            soc_id=`cat /sys/devices/soc0/soc_id`
+        else
+            soc_id=`cat /sys/devices/system/soc/soc0/id`
+        fi
+
+        if [ -f /sys/devices/soc0/platform_subtype_id ]; then
+             platform_subtype_id=`cat /sys/devices/soc0/platform_subtype_id`
+        fi
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+             hw_platform=`cat /sys/devices/soc0/hw_platform`
+        fi
+        case "$soc_id" in
+             "239")
+                  case "$hw_platform" in
+                       "Surf")
+                            case "$platform_subtype_id" in
+                                 "1")
+                                      setprop qemu.hw.mainkeys 0
+                                      ;;
+                            esac
+                            ;;
+                       "MTP")
+                          case "$platform_subtype_id" in
+                               "3")
+                                    setprop qemu.hw.mainkeys 0
+                                    ;;
+                          esac
+                          ;;
+                  esac
+                  ;;
+        esac
+        ;;
+    "msm8994" | "msm8992" | "msmcobalt")
+        start_msm_irqbalance
+        ;;
+    "msm8996")
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+             hw_platform=`cat /sys/devices/soc0/hw_platform`
+        fi
+        case "$hw_platform" in
+                "MTP" | "CDP")
+                #Loop through the sysfs nodes and determine the correct sysfs to change the permission and ownership.
+                        for count in 0 1 2 3 4 5 6 7 8 9 10
+                        do
+                                dir="/sys/devices/soc/75ba000.i2c/i2c-12/12-0020/input/input"$count
+                                if [ -d "$dir" ]; then
+                                     chmod 0660 $dir/secure_touch_enable
+                                     chmod 0440 $dir/secure_touch
+                                     chown system.drmrpc $dir/secure_touch_enable
+                                     chown system.drmrpc $dir/secure_touch
+                                     break
+                                fi
+                        done
+                        ;;
+        esac
+        ;;
+    "msm8909")
+        start_vm_bms
+        ;;
+    "msm8937")
+        start_msm_irqbalance_8939
+        if [ -f /sys/devices/soc0/soc_id ]; then
+            soc_id=`cat /sys/devices/soc0/soc_id`
+        else
+            soc_id=`cat /sys/devices/system/soc/soc0/id`
+        fi
+
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+             hw_platform=`cat /sys/devices/soc0/hw_platform`
+        else
+             hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
+        fi
+        case "$soc_id" in
+             "294" | "295" | "303" | "307" | "308" | "309" | "313")
+                  case "$hw_platform" in
+                       "Surf")
+                                    setprop qemu.hw.mainkeys 0
+                                    ;;
+                       "MTP")
+                                    setprop qemu.hw.mainkeys 1
+                                    ;;
+                       "RCM")
+                                    setprop qemu.hw.mainkeys 0
+                                    ;;
+                  esac
+                  ;;
+       esac
+        ;;
     "msm8953")
 	start_msm_irqbalance_8939
         if [ -f /sys/devices/soc0/soc_id ]; then
@@ -164,16 +332,9 @@ case "$emmc_boot"
 esac
 
 #
-# Allow persistent faking of bms
-# User needs to set fake bms charge in persist.bms.fake_batt_capacity
+# Function to start sensors for SSC enabled platforms
 #
-fake_batt_capacity=`getprop persist.bms.fake_batt_capacity`
-case "$fake_batt_capacity" in
-    "") ;; #Do nothing here
-    * )
-    echo "$fake_batt_capacity" > /sys/class/power_supply/battery/capacity
-    ;;
-esac
+start_sensors
 
 #
 # Copy qcril.db if needed for RIL
