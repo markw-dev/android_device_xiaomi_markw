@@ -129,6 +129,10 @@ PRODUCT_PACKAGES += \
     ethertypes \
     libebtc
 
+# Gello
+PRODUCT_PACKAGES += \
+    Gello
+
 # GPS
 PRODUCT_PACKAGES += \
     gps.default
