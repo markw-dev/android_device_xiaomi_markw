@@ -131,7 +131,10 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
-    gps.msm8953
+    gps.default
+
+PRODUCT_BOOT_JARS += \
+    com.qti.location.sdk
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/flp.conf:system/etc/flp.conf \
