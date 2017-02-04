@@ -1506,6 +1506,9 @@ vendor/lib64/libTimeService.so
 etc/ft5346_biel_1080p.ini
 etc/ft5346_oufei_1080p.ini
 
+# UI blur (From OP3)
+vendor/lib64/libuiblur.so|4b3fabf5ded7c4af531abde681676fc5e9248494
+
 # USB
 etc/firmware/ice40.bin
 
