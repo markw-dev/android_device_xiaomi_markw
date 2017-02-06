@@ -356,11 +356,11 @@ on post-fs-data
     write /data/misc/radio/db_check_done 1
 
 service perfd /system/vendor/bin/perfd
-   class main
-   user root
-   disabled
-   socket perfd seqpacket 0666 root system
-   writepid /dev/cpuset/system-background/tasks
+    class main
+    user root
+    disabled
+    socket perfd seqpacket 0666 root system
+    writepid /dev/cpuset/system-background/tasks
 
 service iop /system/bin/iop
     class main
@@ -420,7 +420,7 @@ on property:persist.radio.atfwd.start=false
 on property:radio.atfwd.start=false
     stop atfwd
 
-# corefile limit
+# Corefile limit
 on property:persist.debug.trace=1
     mkdir /data/core 0777 root root
     write /proc/sys/kernel/core_pattern "/data/core/%E.%p.%e"
@@ -796,17 +796,6 @@ service loc_launcher /system/bin/loc_launcher
     group gps inet qcom_diag wifi
     writepid /dev/cpuset/system-background/tasks
 
-service fm_dl /system/bin/sh /system/etc/init.qcom.fm.sh
-    class late_start
-    user system
-    group system
-    disabled
-    oneshot
-
-on property:crypto.driver.load=1
-     insmod /system/lib/modules/qce.ko
-     insmod /system/lib/modules/qcedev.ko
-
 service drmdiag /system/bin/drmdiagapp
     class late_start
      user root
@@ -938,12 +927,6 @@ on property:sys.wfdservice=disable
     stop wfdservice
 
 service qseeproxydaemon /system/vendor/bin/qseeproxydaemon
-    class late_start
-    user system
-    group system
-
-# Seemp health service
-service seemp_healthd /system/vendor/bin/seemp_healthd
     class late_start
     user system
     group system
