@@ -434,10 +434,6 @@ on property:persist.sys.chgdisabled=0
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
 
-on property:bluetooth.isEnabled=true
-    start btwlancoex
-    write /sys/class/bluetooth/hci0/idle_timeout 7000
-
 on property:bluetooth.sap.status=running
     start bt-sap
 
@@ -461,7 +457,6 @@ on property:bluetooth.startbtsnoop=false
 
 on property:vold.decrypt=trigger_restart_framework
     start config_bt_addr
-    start config_bluetooth
     start wcnss-service
     start cnss_diag
 
@@ -529,11 +524,6 @@ service config_bt_addr /system/bin/btnvtool -O
     class core
     user bluetooth
     group bluetooth radio
-    oneshot
-
-service config_bluetooth /system/bin/sh /system/etc/init.qcom.bt.sh "onboot"
-    class core
-    user root
     oneshot
 
 service hciattach /system/bin/sh /system/etc/init.qcom.bt.sh
