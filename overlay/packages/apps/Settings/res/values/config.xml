@@ -14,10 +14,6 @@
      limitations under the License.
 -->
 <resources>
-  <bool name="has_led_flash">true</bool>
-  <bool name="config_show_volumeRockerWake">true</bool>
-
-   <!-- Using this on MSIM devices leads to weird states that break telephony's
-   internal state machine. All MSIM devices should probably set this to "true"-->
-   <bool name="config_disablePreferredNetworkSwitch" translatable="false">true</bool>
+    <!-- Config to show/hide Wifi calling mode Preference UI option -->
+    <bool name="config_wfc_mode_supported" translatable="false">false</bool>
 </resources>
