@@ -128,6 +128,10 @@ PRODUCT_PACKAGES += \
     ethertypes \
     libebtc
 
+# Fingerprint
+PRODUCT_PACKAGES += \
+    fingerprintd
+
 # Gello
 PRODUCT_PACKAGES += \
     Gello
