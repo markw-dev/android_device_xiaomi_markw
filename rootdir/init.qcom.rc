@@ -187,13 +187,14 @@ on boot
 
     # xuchao,add the fp sensor infomation,20161108,start
     on property:persist.sys.fp.vendor=switchf
+    start fpsymlink
 	setprop ro.boot.fpsensor fpc
 
     on property:persist.sys.fp.vendor=goodix
+    start fpsymlink
 	setprop ro.boot.fpsensor gdx
     # xuchao,add the fp sensor infomation,20161108,end
 
-# MSM specific files that need to be created on /data
 on post-fs-data
     #Create directories for Fingerprint
     mkdir /data/misc/stargate 0770 system system
@@ -936,6 +937,13 @@ service gx_fpd /system/bin/gx_fpd
     class core
     user root
     group system system
+    disabled
+
+service fpsymlink /system/bin/sh /system/etc/fpsymlink.sh
+    class core
+    user root
+    group system system
+    oneshot
     disabled
 
 on property:persist.sys.fp.vendor=switchf

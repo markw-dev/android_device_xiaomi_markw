@@ -223,7 +223,8 @@ PRODUCT_PACKAGES += \
     ueventd.qcom.rc
 
 PRODUCT_PACKAGES += \
-    init.qcom.bt.sh
+    init.qcom.bt.sh \
+    fpsymlink.sh
 
 # RIL
 PRODUCT_PACKAGES += \
