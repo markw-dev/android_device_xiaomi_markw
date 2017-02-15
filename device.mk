@@ -207,10 +207,7 @@ PRODUCT_PACKAGES += \
 
 # QMI
 PRODUCT_PACKAGES += \
-    libjson \
-    dsi_config.xml \
-    netmgr_config.xml \
-    qmi_config.xml
+    libjson
 
 # Ramdisk
 PRODUCT_PACKAGES += \
