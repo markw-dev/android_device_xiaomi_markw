@@ -6,6 +6,8 @@ vendor/lib/libfastcvadsp_stub.so
 vendor/lib/libfastcvopt.so
 vendor/lib64/libadsprpc.so
 vendor/lib64/libadsp_default_listener.so
+vendor/lib64/libfastcvadsp_stub.so
+vendor/lib64/libfastcvopt.so
 
 # ADSP modules
 vendor/lib/rfsa/adsp/libapps_mem_heap.so
@@ -53,6 +55,9 @@ vendor/lib64/libadiertac.so
 vendor/lib64/libaudcal.so
 vendor/lib64/libaudioalsa.so
 vendor/lib64/libaudiodevarb.so
+vendor/lib64/soundfx/libqcbassboost.so
+vendor/lib64/soundfx/libqcreverb.so
+vendor/lib64/soundfx/libqcvirt.so
 
 # Audio ACDB
 etc/acdbdata/MTP/msm8953-tasha-snd-card/MTP_WCD9335_Bluetooth_cal.acdb
@@ -79,9 +84,11 @@ etc/acdbdata/QRD/QRD_Speaker_cal.acdb
 
 # Bluetooth
 bin/btnvtool
+bin/dun-server
 bin/hci_qcomm_init
 vendor/lib/libbtnv.so
 vendor/lib64/libbtnv.so
+vendor/lib64/libCommandSvc.so
 
 # CNE
 bin/cnd
@@ -158,6 +165,7 @@ vendor/lib/libflash_pmic.so
 vendor/lib/libjpegdhw.so
 vendor/lib/libjpegdmahw.so
 vendor/lib/libjpegehw.so
+vendor/lib/libllvd_smore.so
 vendor/lib/libmmcamera2_c2d_module.so
 vendor/lib/libmmcamera2_cpp_module.so
 vendor/lib/libmmcamera2_dcrf.so
@@ -822,6 +830,7 @@ vendor/lib/libchromatix_ov8865_zsl_preview.so
 vendor/lib/libchromatix_ov8865_zsl_video.so
 vendor/lib/libchromatix_qtech_ov5670_f5670bq_a3_default_preview.so
 vendor/lib/libchromatix_qtech_ov5670_f5670bq_a3_default_video.so
+
 vendor/lib/libchromatix_qtech_ov5670_f5670bq_a3_hfr_120.so
 vendor/lib/libchromatix_qtech_ov5670_f5670bq_a3_hfr_60.so
 vendor/lib/libchromatix_qtech_ov5670_f5670bq_a3_hfr_90.so
@@ -1342,6 +1351,10 @@ vendor/media/PFFprec_600.emd
 vendor/lib/libwms.so
 vendor/lib64/libwms.so
 
+# Network
+vendor/lib/libconnctrl.so
+vendor/lib64/libconnctrl.so
+
 # Perf
 bin/iop
 bin/msm_irqbalance
@@ -1528,4 +1541,5 @@ vendor/lib/mediadrm/libwvdrmengine.so
 # Wi-Fi
 bin/cnss-daemon
 bin/cnss_diag
+bin/wcnss_service
 lib/modules/pronto/pronto_wlan.ko
