@@ -54,7 +54,7 @@ ro.qualcomm.bt.hci_transport=smd
 
 # Camera
 camera.hal1.packagelist=com.skype.raider,com.google.android.talk
-media.camera.ts.monotonic=1
+media.camera.ts.monotonic=0
 vidc.enc.disable_bframes=1
 vidc.dec.downscalar_width=1920
 vidc.dec.downscalar_height=1088
@@ -143,3 +143,6 @@ persist.timed.enable=true
 
 # WIFI
 wifi.interface=wlan0
+
+# Wingtech ID
+ro.build.display.wtid=SW_S88553AA1_V060_M21_MP_XM
