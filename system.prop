@@ -80,7 +80,7 @@ ro.sf.lcd_density=480
 persist.qfp=false
 
 # FRP
-ro.frp.pst=/dev/block/bootdevice/by-name/frp
+ro.frp.pst=/dev/block/bootdevice/by-name/config
 
 # Media
 media.msm8956hw=0
