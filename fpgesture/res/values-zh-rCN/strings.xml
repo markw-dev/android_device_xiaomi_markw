@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="fp_gesture_title">指纹手势</string>
+	<string name="fp_as_home_title">虚拟Home键</string>
+	<string name="fp_as_home_summary">将指纹传感器作为Home键使用</string>
+
+</resources>

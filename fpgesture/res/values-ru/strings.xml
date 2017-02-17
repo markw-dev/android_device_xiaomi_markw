@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="fp_gesture_title">Жест отпечатков пальцев</string>
+	<string name="fp_as_home_title">Отпечатков пальцев как Главная</string>
+	<string name="fp_as_home_summary">Использование отпечатка пальца как дома</string>
+
+</resources>

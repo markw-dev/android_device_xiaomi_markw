@@ -138,6 +138,14 @@ PRODUCT_PACKAGES += \
     fingerprint.msm8953 \
     fingerprintd
 
+# FPGesture
+PRODUCT_PACKAGES += \
+    FPGesture
+
+# KeyHandler
+PRODUCT_PACKAGES += \
+    com.cyanogenmod.keyhandler
+
 # Gello
 PRODUCT_PACKAGES += \
     Gello
