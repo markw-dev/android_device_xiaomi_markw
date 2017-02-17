@@ -122,6 +122,11 @@ PRODUCT_PACKAGES += \
     memtrack.msm8953 \
     libtinyxml
 
+# DPM
+PRODUCT_BOOT_JARS += \
+    com.qti.dpmframework \
+    dpmapi
+
 # Ebtables
 PRODUCT_PACKAGES += \
     ebtables \
