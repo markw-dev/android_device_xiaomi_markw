@@ -81,9 +81,6 @@ on enable-low-power
     write /sys/block/dm-0/queue/read_ahead_kb 128
     write /sys/block/dm-1/queue/read_ahead_kb 128
 
-    rm /data/system/perfd/default_values
-    start perfd
-
 on class_start:late_start
     trigger enable-low-power
 
