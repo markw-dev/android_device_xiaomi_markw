@@ -42,6 +42,7 @@ vendor/lib/libaudcal.so
 vendor/lib/libaudioalsa.so
 vendor/lib/libaudiodevarb.so
 vendor/lib/libdrc.so
+vendor/lib/libhwdaphal.so
 vendor/lib/libqct_resampler.so
 vendor/lib/libsurround_3mic_proc.so
 vendor/lib/soundfx/libqcbassboost.so
@@ -55,6 +56,7 @@ vendor/lib64/libadiertac.so
 vendor/lib64/libaudcal.so
 vendor/lib64/libaudioalsa.so
 vendor/lib64/libaudiodevarb.so
+vendor/lib64/libhwdaphal.so
 vendor/lib64/soundfx/libqcbassboost.so
 vendor/lib64/soundfx/libqcreverb.so
 vendor/lib64/soundfx/libqcvirt.so
