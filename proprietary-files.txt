@@ -1543,4 +1543,3 @@ vendor/lib/mediadrm/libwvdrmengine.so
 # Wi-Fi
 bin/cnss-daemon
 bin/wcnss_service
-lib/modules/pronto/pronto_wlan.ko
