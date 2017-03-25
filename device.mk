@@ -152,17 +152,15 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
+    flp.conf \
+    gps.conf \
+    izat.conf \
+    lowi.conf \
+    sap.conf \
     gps.msm8953
 
 PRODUCT_BOOT_JARS += \
     com.qti.location.sdk
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/gps/flp.conf:system/etc/flp.conf \
-    $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf \
-    $(LOCAL_PATH)/gps/izat.conf:system/etc/izat.conf \
-    $(LOCAL_PATH)/gps/lowi.conf:system/etc/lowi.conf \
-    $(LOCAL_PATH)/gps/sap.conf:system/etc/sap.conf
 
 # IPA Manager
 PRODUCT_PACKAGES += \

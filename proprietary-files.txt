@@ -1182,9 +1182,9 @@ bin/loc_launcher
 bin/lowi-server
 bin/xtwifi-client
 bin/xtwifi-inet-agent
+etc/xtwifi.conf
 etc/permissions/com.qti.location.sdk.xml
 etc/permissions/com.qualcomm.location.xml
-etc/xtwifi.conf
 -framework/com.qti.location.sdk.jar
 lib/libloc_api_v02.so
 lib/libloc_ds_api.so
