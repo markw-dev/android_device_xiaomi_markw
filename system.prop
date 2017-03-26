@@ -8,15 +8,6 @@ ro.sys.fw.dex2oat_thread_count=4
 # Audio
 af.fast_track_multiplier=2
 audio.deep_buffer.media=true
-audio.dolby.ds2.enabled=true
-audio.offload.buffer.size.kb=64
-audio.offload.gapless.enabled=true
-audio.offload.min.duration.secs=30
-audio.offload.multiple.enabled=false
-audio.offload.pcm.16bit.enable=true
-audio.offload.pcm.24bit.enable=true
-audio.offload.track.enable=false
-audio.offload.video=true
 audio.parser.ip.buffer.size=0
 audio.playback.mch.downsample=true
 audio.pp.asphere.enabled=false
@@ -37,6 +28,16 @@ voice.conc.fallbackpath=deep-buffer
 voice.playback.conc.disabled=true
 voice.record.conc.disabled=false
 voice.voip.conc.disabled=true
+
+# Audio offload
+audio.offload.buffer.size.kb=64
+audio.offload.gapless.enabled=true
+audio.offload.min.duration.secs=30
+audio.offload.multiple.enabled=false
+audio.offload.pcm.16bit.enable=true
+audio.offload.pcm.24bit.enable=true
+audio.offload.track.enable=false
+audio.offload.video=true
 
 # Bluetooth
 bluetooth.hfp.client=1
@@ -128,7 +129,6 @@ persist.radio.sib16_support=1
 ril.subscription.types=NV,RUIM
 rild.libargs=-d /dev/smd0
 rild.libpath=/vendor/lib64/libril-qc-qmi-1.so
-ro.ct.device.model=XMP-2016060
 ro.telephony.call_ring.multiple=false
 ro.telephony.default_network=22,22
 ro.telephony.ril_class=MarkwRIL
@@ -151,6 +151,3 @@ persist.timed.enable=true
 
 # WIFI
 wifi.interface=wlan0
-
-# Wingtech ID
-ro.build.display.wtid=SW_S88553AA1_V060_M21_MP_XM

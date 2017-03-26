@@ -120,7 +120,6 @@ on boot
     mkdir /dev/socket/netmgr 0750 radio radio
     
     setprop persist.radio.start_ota_daemon 1
-    setprop ro.telephony.call_ring.multiple false
 
     # Enable camera read sensors data
     setprop persist.camera.gyro.disable 0
