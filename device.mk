@@ -112,7 +112,7 @@ PRODUCT_COPY_FILES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    Snap
+    SnapdragonCamera
 
 # Display
 PRODUCT_PACKAGES += \
@@ -137,6 +137,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fingerprint.msm8953 \
     fingerprintd
+
+# FM
+PRODUCT_PACKAGES += \
+    FMRadio \
+    FMRecord \
+    libqcomfm_jni \
+    qcom.fmradio
 
 # FPGesture
 PRODUCT_PACKAGES += \
