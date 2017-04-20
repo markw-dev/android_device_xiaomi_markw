@@ -81,22 +81,23 @@
     <!-- Is the battery LED intrusive? Used to decide if there should be a disable option -->
     <bool name="config_intrusiveBatteryLed">true</bool>
 
-    <!-- What can the LEDs on this device do? If defined, this overrides all of the
-         older settings:
-         com.android.internal.R.bool.config_multiColorNotificationLed
-         com.android.internal.R.bool.config_multiColorBatteryLed
-         org.cyanogenmod.platform.internal.R.bool.config_multipleNotificationLeds
-         com.android.internal.R.bool.config_ledCanPulse
-         org.cyanogenmod.platform.internal.R.bool.config_useSegmentedBatteryLed
-         org.cyanogenmod.platform.internal.R.bool.config_adjustableNotificationLedBrightness
-         Use the following values from NotificationManager:
-         LIGHTS_RGB_NOTIFICATION = 0
-         LIGHTS_RGB_BATTERY = 1
-         LIGHTS_MULTIPLE_LED = 2
-         LIGHTS_LED_PULSE = 3
-         LIGHTS_SEGMENTED_BATTERY_LIGHTS = 4
-         LIGHTS_ADJUSTABLE_NOTIFICATION_BRIGHTNESS = 5
-    -->
+    <!-- Does the notification LED support multiple colors?
+         Used to decide if the user can change the colors -->
+    <bool name="config_multiColorNotificationLed">true</bool>
+
+    <!-- Does the battery LED support multiple colors?
+         Used to decide if the user can change the colors -->
+    <bool name="config_multiColorBatteryLed">true</bool>
+
+    <!-- Is the notification LED intrusive? Used to decide if there should be a disable option -->
+    <bool name="config_intrusiveNotificationLed">true</bool>
+
+    <!-- Is the battery LED intrusive? Used to decide if there should be a disable option -->
+    <bool name="config_intrusiveBatteryLed">true</bool>
+
+    <!-- Whether a software navigation bar should be shown. NOTE: in the future this may be
+         autodetected from the Configuration. -->
+    <bool name="config_showNavigationBar">true</bool>
 
     <integer-array translatable="false" name="config_deviceLightCapabilities">
         <item>0</item>
@@ -297,13 +298,16 @@
     the IMS connection -->
     <bool name="useImsAlwaysForEmergencyCall">false</bool>
 
-    <!-- Flag specifying whether VoLTE is available on device -->
+    <!-- Flag specifying whether VoLTE & VT is available on device -->
     <bool name="config_device_volte_available">true</bool>
 
     <!-- Flag specifying whether VoLTE should be available for carrier: independent of
          carrier provisioning. If false: hard disabled. If true: then depends on carrier
          provisioning, availability etc -->
     <bool name="config_carrier_volte_available">true</bool>
+
+    <!-- Flag specifying whether VoLTE TTY is supported -->
+    <bool name="config_carrier_volte_tty_supported">false</bool>
 
     <!-- Config determines whether to update phone object when voice registration
          state changes. Voice radio tech change will always trigger an update of
@@ -431,10 +435,7 @@
          NOTE: This requires additional hardware-specific code. -->
     <bool name="config_ui_blur_enabled">true</bool>
 
-    <!-- Flag specifying whether VoLTE is available on device -->
-    <bool name="config_device_volte_available">true</bool>
-
-    <!-- Flag specifying whether VT is available on device -->
+     <!-- Flag specifying whether VT is available on device -->
     <bool name="config_device_vt_available">false</bool>
 
     <!-- Flag specifying whether WFC over IMS is available on device -->
