@@ -17,9 +17,9 @@
 $(call inherit-product, device/xiaomi/markw/full_markw.mk)
 
 # Inherit some common LineageOS stuff.
-$(call inherit-product, vendor/cm/config/common_full_phone.mk)
+$(call inherit-product, vendor/aokp/configs/common_full_phone.mk)
 
-PRODUCT_NAME := lineage_markw
+PRODUCT_NAME := aokp_markw
 BOARD_VENDOR := Xiaomi
 
 PRODUCT_BUILD_PROP_OVERRIDES += \

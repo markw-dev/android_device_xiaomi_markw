@@ -38,13 +38,13 @@
          backlight values for LUX levels between these control points.
          Must be overridden in platform specific overlays -->
     <integer-array name="config_autoBrightnessLevels">
-        <item>8</item>
-        <item>35</item>
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
         <item>100</item>
-        <item>300</item>
-        <item>1500</item>
-        <item>3500</item>
-        <item>7000</item>
+        <item>150</item>
+        <item>210</item>
+        <item>255</item>
     </integer-array>
 
     <!-- Array of output values for LCD backlight corresponding to the LUX values
@@ -81,22 +81,23 @@
     <!-- Is the battery LED intrusive? Used to decide if there should be a disable option -->
     <bool name="config_intrusiveBatteryLed">true</bool>
 
-    <!-- What can the LEDs on this device do? If defined, this overrides all of the
-         older settings:
-         com.android.internal.R.bool.config_multiColorNotificationLed
-         com.android.internal.R.bool.config_multiColorBatteryLed
-         org.cyanogenmod.platform.internal.R.bool.config_multipleNotificationLeds
-         com.android.internal.R.bool.config_ledCanPulse
-         org.cyanogenmod.platform.internal.R.bool.config_useSegmentedBatteryLed
-         org.cyanogenmod.platform.internal.R.bool.config_adjustableNotificationLedBrightness
-         Use the following values from NotificationManager:
-         LIGHTS_RGB_NOTIFICATION = 0
-         LIGHTS_RGB_BATTERY = 1
-         LIGHTS_MULTIPLE_LED = 2
-         LIGHTS_LED_PULSE = 3
-         LIGHTS_SEGMENTED_BATTERY_LIGHTS = 4
-         LIGHTS_ADJUSTABLE_NOTIFICATION_BRIGHTNESS = 5
-    -->
+    <!-- Does the notification LED support multiple colors?
+         Used to decide if the user can change the colors -->
+    <bool name="config_multiColorNotificationLed">true</bool>
+
+    <!-- Does the battery LED support multiple colors?
+         Used to decide if the user can change the colors -->
+    <bool name="config_multiColorBatteryLed">true</bool>
+
+    <!-- Is the notification LED intrusive? Used to decide if there should be a disable option -->
+    <bool name="config_intrusiveNotificationLed">true</bool>
+
+    <!-- Is the battery LED intrusive? Used to decide if there should be a disable option -->
+    <bool name="config_intrusiveBatteryLed">true</bool>
+
+    <!-- Whether a software navigation bar should be shown. NOTE: in the future this may be
+         autodetected from the Configuration. -->
+    <bool name="config_showNavigationBar">true</bool>
 
     <integer-array translatable="false" name="config_deviceLightCapabilities">
         <item>0</item>
@@ -196,14 +197,15 @@
     <string-array translatable="false" name="networkAttributes">
         <item>wifi,1,1,1,-1,true</item>
         <item>mobile,0,0,0,-1,true</item>
-        <item>mobile_mms,2,0,4,300000,true</item>
-        <item>mobile_supl,3,0,2,300000,true</item>
-        <item>mobile_dun,4,0,2,300000,true</item>
-        <item>mobile_hipri,5,0,3,300000,true</item>
-        <item>mobile_fota,10,0,2,300000,true</item>
-        <item>mobile_ims,11,0,2,300000,true</item>
-        <item>mobile_cbs,12,0,2,300000,true</item>
+        <item>mobile_mms,2,0,4,60000,true</item>
+        <item>mobile_supl,3,0,2,60000,true</item>
+        <item>mobile_dun,4,0,2,60000,true</item>
+        <item>mobile_hipri,5,0,3,60000,true</item>
+        <item>mobile_fota,10,0,2,60000,true</item>
+        <item>mobile_ims,11,0,2,60000,true</item>
+        <item>mobile_cbs,12,0,2,60000,true</item>
         <item>bluetooth,7,7,2,-1,true</item>
+        <item>mobile_emergency,15,0,5,-1,true</item>
         <item>ethernet,9,9,4,-1,true</item>
     </string-array>
 
@@ -213,10 +215,9 @@
     <!-- An Array of "[ConnectivityManager connectionType],
                       [# simultaneous connection types]"  -->
     <string-array translatable="false" name="radioAttributes">
-        <item>1,1</item>
-        <item>0,1</item>
-        <item>7,1</item>
-        <item>9,1</item>
+        <item>"1,1"</item>
+        <item>"0,1"</item>
+        <item>"7,1"</item>
     </string-array>
 
     <!-- List of regexpressions describing the interface (if any) that represent tetherable
@@ -297,13 +298,16 @@
     the IMS connection -->
     <bool name="useImsAlwaysForEmergencyCall">false</bool>
 
-    <!-- Flag specifying whether VoLTE is available on device -->
+    <!-- Flag specifying whether VoLTE & VT is available on device -->
     <bool name="config_device_volte_available">true</bool>
 
     <!-- Flag specifying whether VoLTE should be available for carrier: independent of
          carrier provisioning. If false: hard disabled. If true: then depends on carrier
          provisioning, availability etc -->
     <bool name="config_carrier_volte_available">true</bool>
+
+    <!-- Flag specifying whether VoLTE TTY is supported -->
+    <bool name="config_carrier_volte_tty_supported">false</bool>
 
     <!-- Config determines whether to update phone object when voice registration
          state changes. Voice radio tech change will always trigger an update of
@@ -322,15 +326,11 @@
     <!-- Flag indicating which package name can access the persistent data partition -->
     <string name="config_persistentDataPackageName" translatable="false">com.google.android.gms</string>
 
-    <!-- ComponentName of a dream to show whenever the system would otherwise have
-         gone to sleep.  When the PowerManager is asked to go to sleep, it will instead
-         try to start this dream if possible.  The dream should typically call startDozing()
-         to put the display into a low power state and allow the application processor
-         to be suspended.  When the dream ends, the system will go to sleep as usual.
-         Specify the component name or an empty string if none.
-         Note that doze dreams are not subject to the same start conditions as ordinary dreams.
-         Doze dreams will run whenever the power manager is in a dozing state. -->
-    <string name="config_dozeComponent" translatable="false">com.android.systemui/com.android.systemui.doze.DozeService</string>
+    <!-- If true, the doze component is not started until after the screen has been
+          turned off and the screen off animation has been performed. -->
+    <bool name="config_dozeAfterScreenOff">true</bool>
+
+    <string name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string>
 
     <!-- Power Management: Specifies whether to decouple the interactive state of the
          device from the display on/off state.
@@ -434,5 +434,11 @@
     <!-- Support in Surfaceflinger for blur layers.
          NOTE: This requires additional hardware-specific code. -->
     <bool name="config_ui_blur_enabled">true</bool>
+
+     <!-- Flag specifying whether VT is available on device -->
+    <bool name="config_device_vt_available">false</bool>
+
+    <!-- Flag specifying whether WFC over IMS is available on device -->
+    <bool name="config_device_wfc_ims_available">true</bool>
 
 </resources>
