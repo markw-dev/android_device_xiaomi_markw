@@ -46,6 +46,7 @@
 #include <time.h>
 #include <new>
 #include <LocEngAdapter.h>
+#include <SystemStatus.h>
 
 #include <cutils/sched_policy.h>
 #ifndef USE_GLIB
@@ -926,8 +927,14 @@ void LocEngReportNmea::proc() const {
     gettimeofday(&tv, (struct timezone *) NULL);
     int64_t now = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
 
-    if (locEng->nmea_cb != NULL)
-        locEng->nmea_cb(now, mNmea, mLen);
+    // extract bug report info - this returns true if consumed by systemstatus
+    bool ret = LocDualContext::getSystemStatus()->setNmeaString(mNmea, mLen);
+    if (ret != true) {
+        // forward NMEA message to upper layer
+        if (locEng->nmea_cb != NULL) {
+            locEng->nmea_cb(now, mNmea, mLen);
+        }
+    }
 }
 inline void LocEngReportNmea::locallog() const {
     LOC_LOGV("LocEngReportNmea");
@@ -1763,11 +1770,12 @@ int loc_eng_init(loc_eng_data_s_type &loc_eng_data, LocCallbacks* callbacks,
 
     if ((event & LOC_API_ADAPTER_BIT_NMEA_1HZ_REPORT) && (gps_conf.NMEA_PROVIDER == NMEA_PROVIDER_AP))
     {
-        event = event ^ LOC_API_ADAPTER_BIT_NMEA_1HZ_REPORT; // unregister for modem NMEA report
+        // generate NMEA at AP
         loc_eng_data.generateNmea = true;
     }
     else if (gps_conf.NMEA_PROVIDER == NMEA_PROVIDER_MP)
     {
+        // generate NMEA at MP
         loc_eng_data.generateNmea = false;
     }
 
@@ -1796,10 +1804,9 @@ static int loc_eng_reinit(loc_eng_data_s_type &loc_eng_data)
                                                    sap_conf.SENSOR_PROVIDER));
     adapter->sendMsg(new LocEngAGlonassProtocol(adapter, gps_conf.A_GLONASS_POS_PROTOCOL_SELECT));
 
-    if (!loc_eng_data.generateNmea)
-    {
-        NmeaSentenceTypesMask typesMask = LOC_NMEA_ALL_SUPPORTED_MASK;
-        LOC_LOGD("loc_eng_init setting nmea types, mask = %u\n",typesMask);
+    if ( adapter->getEvtMask() & LOC_API_ADAPTER_BIT_NMEA_1HZ_REPORT) {
+        NmeaSentenceTypesMask typesMask = loc_eng_data.generateNmea ?
+                LOC_NMEA_MASK_DEBUG_V02 : LOC_NMEA_ALL_SUPPORTED_MASK;
         adapter->sendMsg(new LocEngSetNmeaTypes(adapter,typesMask));
     }
 
