@@ -419,7 +419,9 @@ void LocEngAdapter::reportStatus(GpsStatusValue status)
 inline
 void LocEngAdapter::reportNmea(const char* nmea, int length)
 {
-    sendMsg(new LocEngReportNmea(mOwner, nmea, length));
+    if (getEvtMask() & LOC_API_ADAPTER_BIT_NMEA_1HZ_REPORT) {
+        sendMsg(new LocEngReportNmea(mOwner, nmea, length));
+    }
 }
 
 inline
